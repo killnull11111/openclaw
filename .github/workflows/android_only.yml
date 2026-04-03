@@ -1,9 +1,7 @@
 name: 仅编译安卓APK
 on:
-  # 开启手动触发按钮（核心！）
   workflow_dispatch:
 
-# 只运行安卓构建任务
 jobs:
   build-android-apk:
     runs-on: self-hosted
@@ -13,11 +11,15 @@ jobs:
         with:
           submodules: true
           
-      - name: 安装Java环境
-        uses: actions/setup-java@v4
+      - name: 安装Java环境（修复版）
+        # 降级到v3，完美兼容CentOS7
+        uses: actions/setup-java@v3
         with:
-          java-version: 17
-          distribution: temurin
+          # 固定Java 17.0.10版本，避免自动解析最新版
+          java-version: '17.0.10+7'
+          distribution: 'temurin'
+          # 使用国内清华镜像，解决网络超时
+          repo: https://mirrors.tuna.tsinghua.edu.cn/Adoptium/
           
       - name: 编译安卓APK
         run: |
