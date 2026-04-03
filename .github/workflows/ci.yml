@@ -21,7 +21,7 @@ jobs:
   # real work fan out from a single source of truth.
   preflight:
     if: github.event_name != 'pull_request' || !github.event.pull_request.draft
-    runs-on: blacksmith-16vcpu-ubuntu-2404
+    runs-on: [self-hosted, linux, x64] 
     timeout-minutes: 20
     outputs:
       docs_only: ${{ steps.manifest.outputs.docs_only }}
